@@ -1,0 +1,106 @@
+# ==================================================
+# General
+# ==================================================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.bak
+
+# ==================================================
+# Node / React Native / Expo
+# ==================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Expo
+.expo/
+.expo-shared/
+web-build/
+dist/
+build/
+
+# React Native (native builds)
+ios/Pods/
+ios/build/
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# ==================================================
+# Environment variables
+# ==================================================
+.env
+.env.*
+!.env.example
+
+# ==================================================
+# Python / FastAPI
+# ==================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# FastAPI / Uvicorn / local DBs
+*.sqlite3
+*.db
+
+# ==================================================
+# Machine Learning / Data
+# ==================================================
+
+# Datasets (DO NOT COMMIT)
+dataset/
+datasets/
+data/raw/
+data/images/
+
+# Training artifacts / model weights
+apps/training/artifacts/
+apps/server/artifacts/
+models/
+checkpoints/
+
+# Model files
+*.pt
+*.pth
+*.onnx
+*.h5
+
+# ==================================================
+# Uploads & temporary files
+# ==================================================
+uploads/
+tmp/
+cache/
+
+# ==================================================
+# Logs & reports (generated)
+# ==================================================
+logs/
+reports/
+
+# ==================================================
+# VS Code / IDE
+# ==================================================
+.vscode/
+!.vscode/extensions.json
+.idea/
+
+# ==================================================
+# OS-specific
+# ==================================================
+*.orig
