@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
-import Button from '../components/Button';
-import Card from '../components/Card';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View style={styles.logoContainer}>
             <Image 
-              source={require('../assets/logo.jpeg')}
+              source={require('../../assets/logo.jpeg')}
               style={styles.logo}
               resizeMode="cover"
             />

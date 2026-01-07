@@ -102,8 +102,9 @@ async function apiCall<T>(
       
       // Don't retry client errors (4xx)
       if (axiosError.response && axiosError.response.status >= 400 && axiosError.response.status < 500) {
+        const errorData = axiosError.response.data as any;
         throw new ApiError(
-          axiosError.response.data?.detail || 'Invalid request',
+          errorData?.detail || 'Invalid request',
           axiosError.response.status,
           error
         );
@@ -215,7 +216,7 @@ export function getErrorMessage(error: unknown): string {
     }
     
     if (error.response) {
-      const detail = error.response.data?.detail;
+      const detail = (error.response.data as any)?.detail;
       if (typeof detail === 'string') {
         return detail;
       }

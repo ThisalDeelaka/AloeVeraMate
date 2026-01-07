@@ -39,20 +39,33 @@ export default function ErrorMessage({
     }
   };
 
+  const borderColor = getColor();
+  
   return (
-    <Card style={[styles.container, { borderLeftColor: getColor() }]}>
-      <View style={styles.header}>
-        <Text style={styles.icon}>{getIcon()}</Text>
-        <Text style={[styles.title, { color: getColor() }]}>{title}</Text>
+    <Card style={styles.container}>
+      <View style={[styles.border, { backgroundColor: borderColor }]} />
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.icon}>{getIcon()}</Text>
+          <Text style={[styles.title, { color: borderColor }]}>{title}</Text>
+        </View>
+        <Text style={styles.message}>{message}</Text>
       </View>
-      <Text style={styles.message}>{message}</Text>
     </Card>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderLeftWidth: 4,
+    flexDirection: 'row',
+    overflow: 'hidden',
+  },
+  border: {
+    width: 4,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
   },
   header: {
     flexDirection: 'row',
