@@ -126,7 +126,7 @@ export default function HomeScreen() {
             </Text>
             <Button
               title="Open"
-              onPress={() => router.push('/harvest/capture-guide')}
+              onPress={() => router.push('/(tabs)/harvest')}
               variant="gradient"
               style={styles.moduleButton}
             />

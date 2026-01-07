@@ -45,9 +45,9 @@ export default function HarvestCaptureGuideScreen() {
                 <Text style={styles.stepNumberText}>2</Text>
               </View>
               <View style={styles.instructionContent}>
-                <Text style={styles.instructionTitle}>Capture Leaves Close-up</Text>
+                <Text style={styles.instructionTitle}>Place Reference Card</Text>
                 <Text style={styles.instructionText}>
-                  Take close-up shots of 2-3 mature leaves showing thickness and color
+                  Place a credit card or business card (85.6mm × 54mm) flat next to the leaves
                 </Text>
               </View>
             </View>
@@ -56,9 +56,9 @@ export default function HarvestCaptureGuideScreen() {
                 <Text style={styles.stepNumberText}>3</Text>
               </View>
               <View style={styles.instructionContent}>
-                <Text style={styles.instructionTitle}>Natural Lighting</Text>
+                <Text style={styles.instructionTitle}>Take One Photo</Text>
                 <Text style={styles.instructionText}>
-                  Use bright, natural light for accurate color and texture assessment
+                  Capture one photo showing both the card and the leaves you want to measure
                 </Text>
               </View>
             </View>
@@ -99,7 +99,7 @@ export default function HarvestCaptureGuideScreen() {
           </Text>
           <Button
             title="Open Camera"
-            onPress={() => {}}
+            onPress={() => router.push('/harvest/camera')}
             variant="gradient"
             style={styles.button}
             icon="📷"

@@ -53,10 +53,10 @@ class ImageQualityResult:
 
 MIN_WIDTH = 224         # Minimum acceptable image width in pixels
 MIN_HEIGHT = 224        # Minimum acceptable image height in pixels
-# Quality thresholds
-BLUR_THRESHOLD = 100.0  # Variance of Laplacian below this indicates blur
-BRIGHTNESS_MIN = 40.0   # Mean pixel intensity below this is too dark (0-255 scale)
-BRIGHTNESS_MAX = 220.0  # Mean pixel intensity above this is too bright (0-255 scale)
+# Quality thresholds - Very lenient for real-world mobile photos
+BLUR_THRESHOLD = 20.0   # Variance of Laplacian below this indicates blur (very lenient for real photos)
+BRIGHTNESS_MIN = 20.0   # Mean pixel intensity below this is too dark (0-255 scale) (very lenient)
+BRIGHTNESS_MAX = 240.0  # Mean pixel intensity above this is too bright (0-255 scale) (very lenient)
 
 
 def check_blur(image: Image.Image) -> Tuple[bool, float]:

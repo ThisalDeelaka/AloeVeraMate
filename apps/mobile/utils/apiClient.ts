@@ -65,6 +65,32 @@ export interface HealthResponse {
   message: string;
 }
 
+// Harvest API types
+export interface CardCorner {
+  x: number;
+  y: number;
+}
+
+export interface CardDetectionResponse {
+  success: boolean;
+  card_corners: CardCorner[] | null;
+  confidence: number | null;
+  message: string;
+}
+
+export interface LeafMeasurementInput {
+  base: { x: number; y: number };
+  tip: { x: number; y: number };
+}
+
+export interface HarvestLengthResponse {
+  leaf_lengths_cm: number[];
+  avg_leaf_length_cm: number;
+  stage: 'NOT_MATURE' | 'INTERMEDIATE' | 'MATURE';
+  confidence_status: 'HIGH' | 'MEDIUM' | 'LOW';
+  retake_message: string | null;
+}
+
 // Error class for API errors
 export class ApiError extends Error {
   constructor(
@@ -196,6 +222,97 @@ export const apiClient = {
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+  },
+
+  /**
+   * Detect harvest card in image
+   * @param imageUri - Local image URI from device
+   * @param cropQuad - Optional 4-point crop quad for perspective correction
+   */
+  async detectHarvestCard(
+    imageUri: string,
+    cropQuad?: CardCorner[]
+  ): Promise<CardDetectionResponse> {
+    const formData = new FormData();
+    
+    // Prepare image file
+    const fileName = imageUri.split('/').pop() || 'harvest_image.jpg';
+    const fileType = `image/${fileName.split('.').pop() || 'jpg'}`;
+    
+    formData.append('image', {
+      uri: imageUri,
+      type: fileType,
+      name: fileName,
+    } as any);
+    
+    // Add optional crop quad
+    if (cropQuad && cropQuad.length === 4) {
+      formData.append('crop_quad', JSON.stringify(cropQuad));
+    }
+    
+    return apiCall<CardDetectionResponse>({
+      method: 'POST',
+      url: '/api/v4/harvest/detect_card',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 45000, // 45 seconds for image processing
+    });
+  },
+
+  /**
+   * Measure harvest leaf lengths
+   * @param imageUri - Local image URI from device
+   * @param cardCorners - 4 card corner points for calibration
+   * @param leafMeasurements - Array of leaf measurement points (base + tip)
+   * @param cropQuad - Optional 4-point crop quad for perspective correction
+   */
+  async measureHarvestLength(
+    imageUri: string,
+    cardCorners: CardCorner[],
+    leafMeasurements: LeafMeasurementInput[],
+    cropQuad?: CardCorner[]
+  ): Promise<HarvestLengthResponse> {
+    if (cardCorners.length !== 4) {
+      throw new ApiError('Card corners must contain exactly 4 points', 400);
+    }
+    
+    if (leafMeasurements.length < 1 || leafMeasurements.length > 3) {
+      throw new ApiError('Must provide 1-3 leaf measurements', 400);
+    }
+    
+    const formData = new FormData();
+    
+    // Prepare image file
+    const fileName = imageUri.split('/').pop() || 'harvest_image.jpg';
+    const fileType = `image/${fileName.split('.').pop() || 'jpg'}`;
+    
+    formData.append('image', {
+      uri: imageUri,
+      type: fileType,
+      name: fileName,
+    } as any);
+    
+    // Add required parameters
+    formData.append('card_corners', JSON.stringify(cardCorners));
+    formData.append('leaf_measurements', JSON.stringify(leafMeasurements));
+    formData.append('reference_type', 'CREDIT_CARD');
+    
+    // Add optional crop quad
+    if (cropQuad && cropQuad.length === 4) {
+      formData.append('crop_quad', JSON.stringify(cropQuad));
+    }
+    
+    return apiCall<HarvestLengthResponse>({
+      method: 'POST',
+      url: '/api/v4/harvest/measure_length',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 45000, // 45 seconds for image processing
     });
   },
 };

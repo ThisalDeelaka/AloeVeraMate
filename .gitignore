@@ -80,17 +80,28 @@ datasets/
 data/raw/
 data/images/
 
-# Training artifacts / model weights
-apps/training/artifacts/
-apps/server/artifacts/
+# Training artifacts / model weights (large files)
+apps/training/artifacts/*.pt
+apps/training/artifacts/*.h5
+apps/server/artifacts/*.pt
+apps/server/artifacts/*.h5
+# But include model metadata
+!apps/server/artifacts/model_metadata.json
+!apps/server/artifacts/calibration.json
+!apps/server/artifacts/README.md
+!apps/server/artifacts/download_model.ps1
+
 models/
 checkpoints/
 
-# Model files
+# Model files (large binaries)
 *.pt
 *.pth
 *.onnx
 *.h5
+*.pkl
+# Exception: keep small IoT model
+!apps/server/app/ml_models/iot_disease_model.pkl
 
 # ==================================================
 # Uploads & temporary files

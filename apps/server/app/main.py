@@ -5,9 +5,10 @@ from pathlib import Path
 
 from app.config import settings
 from app.schemas import HealthCheckResponse
-from app.api import prediction
+from app.api import prediction, harvest, iot
 from app.services.knowledge_validator import validate_knowledge_base
 from app.services.inference import get_inference_service
+from app.database import connect_to_mongo, close_mongo_connection
 
 # Configure logging
 logging.basicConfig(
@@ -93,7 +94,19 @@ def create_app() -> FastAPI:
     )
     
     # Include routers
-    app.include_router(prediction.router)
+    app.include_router(prediction.router)  # Component 1: Disease Detection
+    app.include_router(harvest.router)      # Component 4: Harvest Assessment
+    app.include_router(iot.router)          # Component 2: IoT Monitoring
+    
+    # Startup event - Connect to MongoDB
+    @app.on_event("startup")
+    async def startup_event():
+        await connect_to_mongo()
+    
+    # Shutdown event - Close MongoDB connection
+    @app.on_event("shutdown")
+    async def shutdown_event():
+        await close_mongo_connection()
     
     # Health check endpoint
     @app.get("/health", response_model=HealthCheckResponse)

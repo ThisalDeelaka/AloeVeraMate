@@ -85,3 +85,56 @@ class FeedbackStatsResponse(BaseModel):
     helpful_rate: str
     confidence_distribution: dict
     common_corrections: List[dict]
+
+
+# ========================================
+# IoT Monitoring Schemas
+# ========================================
+
+class SensorReadingCreate(BaseModel):
+    deviceId: str = Field(..., description="Unique device identifier")
+    temperature: float = Field(..., description="Temperature in Celsius")
+    humidity: float = Field(..., ge=0, le=100, description="Humidity percentage")
+    soilMoisture: float = Field(..., ge=0, le=100, description="Soil moisture percentage")
+
+
+class SensorReadingResponse(BaseModel):
+    id: str
+    deviceId: str
+    temperature: float
+    humidity: float
+    soilMoisture: float
+    recordedAt: str
+
+
+class DiseasePrediction(BaseModel):
+    """Individual disease prediction with probability"""
+    disease: str
+    probability: float
+
+
+class IoTPrediction(BaseModel):
+    disease: str  # Primary predicted disease (backward compatibility)
+    confidence: float  # Confidence of primary disease (backward compatibility)
+    risk_score: float  # Overall risk score (0-1)
+    predicted_risk_diseases: List[DiseasePrediction]  # Top-N disease predictions
+    recommended_preventive_actions: List[str]  # Action suggestions
+    environmental_factors: dict
+
+
+class IoTPredictionResponse(BaseModel):
+    success: bool
+    reading: dict
+    prediction: IoTPrediction
+    alert: Optional[dict] = None
+
+
+class AlertResponse(BaseModel):
+    id: str
+    deviceId: str
+    disease: str
+    confidence: float
+    message: str
+    timestamp: str
+    acknowledged: bool = False
+

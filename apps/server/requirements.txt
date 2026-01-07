@@ -11,7 +11,7 @@ opencv-python==4.9.0.80
 # For ML inference (placeholder - replace with actual model dependencies)
 # torch==2.1.2
 # torchvision==0.16.2
-# tensorflow==2.15.0
+tensorflow>=2.15.0  # For optional harvest ML model (demo)
 
 # For RAG (if implementing real RAG)
 # langchain==0.1.0

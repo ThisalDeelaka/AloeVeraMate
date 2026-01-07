@@ -29,24 +29,38 @@ export default function HarvestTabScreen() {
         <Card>
           <Text style={styles.cardTitle}>Optimize Your Harvest</Text>
           <Text style={styles.cardText}>
-            Track harvest readiness and get real-time market price recommendations. 
-            Maximize your profit with intelligent timing and market insights.
+            Measure leaf size using a reference card for accurate harvest readiness assessment. 
+            Get instant feedback on maturity, gel content, and market value.
           </Text>
           <Button
-            title="Check Harvest Status"
-            onPress={() => router.push('/harvest/capture-guide')}
+            title="Start Measurement"
+            onPress={() => router.push('/harvest/card-capture-guide')}
             variant="gradient"
             style={styles.button}
-            icon="🌱"
+            icon="📏"
+          />
+          
+          <View style={styles.divider} />
+          
+          <Text style={styles.demoLabel}>🧪 Demo: AI-Based Assessment</Text>
+          <Text style={styles.demoText}>
+            Try experimental ML model (38% accuracy - for demo only)
+          </Text>
+          <Button
+            title="Try ML Assessment"
+            onPress={() => router.push('/harvest/ml-demo')}
+            style={styles.mlButton}
+            icon="🤖"
           />
         </Card>
 
         <Card style={styles.infoCard}>
-          <Text style={styles.infoTitle}>What You Get</Text>
-          <Text style={styles.infoText}>• Harvest readiness detection</Text>
-          <Text style={styles.infoText}>• Real-time market prices</Text>
-          <Text style={styles.infoText}>• Quality assessment</Text>
-          <Text style={styles.infoText}>• Revenue predictions</Text>
+          <Text style={styles.infoTitle}>How It Works</Text>
+          <Text style={styles.infoText}>• Place reference card near leaves</Text>
+          <Text style={styles.infoText}>• Capture image with your camera</Text>
+          <Text style={styles.infoText}>• Mark card corners for calibration</Text>
+          <Text style={styles.infoText}>• Measure up to 3 leaves by tapping base & tip</Text>
+          <Text style={styles.infoText}>• Get harvest readiness & market insights</Text>
         </Card>
       </View>
     </View>
@@ -102,6 +116,27 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 0,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#E0E0E0',
+    marginVertical: 20,
+  },
+  demoLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FF9800',
+    marginBottom: 8,
+  },
+  demoText: {
+    fontSize: 13,
+    color: '#9E9E9E',
+    marginBottom: 12,
+    fontStyle: 'italic',
+  },
+  mlButton: {
+    backgroundColor: '#FF9800',
+    borderRadius: 12,
   },
   infoCard: {
     marginTop: 16,

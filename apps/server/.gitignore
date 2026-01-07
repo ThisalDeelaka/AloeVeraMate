@@ -29,14 +29,20 @@ htmlcov/
 # Logs
 *.log
 
-# ML Models
+# ML Models (exclude large binary files, include metadata)
 *.pkl
-*.h5
-*.pt
-*.onnx
 models/*.pkl
 models/*.h5
 !models/.gitkeep
+
+# Model artifacts (exclude model.pt but include metadata)
+artifacts/model.pt
+artifacts/*.h5
+# Include model metadata and calibration
+!artifacts/model_metadata.json
+!artifacts/calibration.json
+!artifacts/README.md
+!artifacts/download_model.ps1
 
 # Data - Exclude generated/uploaded data but INCLUDE curated content
 data/uploads/

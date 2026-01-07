@@ -2,7 +2,7 @@
 
 An intelligent mobile application for detecting aloe vera plant diseases and providing treatment guidance through both scientific and Ayurvedic approaches.
 
-## � Quick Start
+##  Quick Start
 
 ```bash
 # 1. Train Model (First Time Setup)

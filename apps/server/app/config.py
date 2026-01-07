@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     RAG_ENABLED: bool = False
     RAG_MODEL: Optional[str] = None
     
+    # MongoDB
+    MONGODB_URI: Optional[str] = None
+    
     class Config:
         env_file = ".env"
         case_sensitive = True

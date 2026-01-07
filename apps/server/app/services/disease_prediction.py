@@ -103,10 +103,11 @@ class DiseasePredictor:
         Returns:
             Tuple of (confidence_status, recommended_next_step, retake_message)
         """
+        # TEMPORARILY DISABLED: Skip aloe vera check to debug confidence issues
         # First check if this might not be an aloe vera plant
-        is_aloe_vera, warning_msg = self._check_if_aloe_vera(predictions)
-        if not is_aloe_vera:
-            return "LOW", "RETAKE", warning_msg
+        # is_aloe_vera, warning_msg = self._check_if_aloe_vera(predictions)
+        # if not is_aloe_vera:
+        #     return "LOW", "RETAKE", warning_msg
         
         # Get thresholds from model info
         model_info = self.inference_service.get_model_info()
@@ -183,6 +184,13 @@ class DiseasePredictor:
             try:
                 image = Image.open(image_path)
                 quality_result = check_image_quality(image)
+                
+                # Log quality metrics for debugging
+                logger.info(f"Request {request_id}: Image {i+1} quality - "
+                          f"Resolution: {quality_result.resolution}, "
+                          f"Blur score: {quality_result.blur_score:.2f}, "
+                          f"Brightness: {quality_result.brightness_score:.2f}, "
+                          f"Status: {quality_result.issue.value}")
                 
                 if not quality_result.is_acceptable:
                     logger.warning(f"Request {request_id}: Image {i+1} failed quality check: {quality_result.issue.value}")
