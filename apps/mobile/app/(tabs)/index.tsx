@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, Pressable, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
-import Button from '../../components/Button';
+import { BlurView } from 'expo-blur';
 import Card from '../../components/Card';
+import { Colors, Typography, Spacing, BorderRadius, Shadows } from '../../theme/design-system';
+
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -12,128 +14,225 @@ export default function HomeScreen() {
   return (
     <View style={styles.wrapper}>
       <StatusBar style="light" />
+      
+      {/* Modern gradient header */}
       <ExpoLinearGradient
-        colors={['#1B5E20', '#2E7D32', '#4CAF50']}
+        colors={Colors.gradients.primary}
         style={styles.gradientHeader}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
         <View style={styles.header}>
+          {/* Floating logo with modern shadow */}
           <View style={styles.logoContainer}>
-            <Image 
-              source={require('../../assets/logo.jpeg')}
-              style={styles.logo}
-              resizeMode="cover"
-            />
+            <View style={styles.logoShadow}>
+              <Image 
+                source={require('../../assets/logo.jpeg')}
+                style={styles.logo}
+                resizeMode="cover"
+              />
+            </View>
           </View>
+          
+          {/* Modern title with better typography */}
           <Text style={styles.title}>Aloe Mate</Text>
+          
+          {/* Redesigned tagline with pill badges */}
           <View style={styles.taglineContainer}>
             <Text style={styles.subtitle}>AI-Powered Plant Health Assistant</Text>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>✨ Smart Detection</Text>
+            <View style={styles.badgeGroup}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>🤖 AI Detection</Text>
+              </View>
+              <View style={[styles.badge, styles.badgeSecondary]}>
+                <Text style={styles.badgeText}>📡 IoT Monitoring</Text>
+              </View>
             </View>
           </View>
         </View>
       </ExpoLinearGradient>
       
-      <ScrollView contentContainerStyle={styles.container}>
-        
+      <ScrollView 
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Modern section header with icon */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Your Aloe Vera Toolkit</Text>
-          <Text style={styles.sectionSubtitle}>Choose a module to get started</Text>
+          <View style={styles.sectionIconContainer}>
+            <Text style={styles.sectionIcon}>🌿</Text>
+          </View>
+          <Text style={styles.sectionTitle}>Your Plant Health Toolkit</Text>
+          <Text style={styles.sectionSubtitle}>Everything you need for healthy aloe vera plants</Text>
         </View>
 
         <View style={styles.modulesGrid}>
-          {/* Module 1: Disease Detection & Treatment */}
-          <Card style={styles.moduleCard}>
-            <View style={styles.moduleHeader}>
-              <View style={styles.moduleIcon}>
-                <Text style={styles.moduleIconText}>🔬</Text>
+          {/* Modern Module Card 1: Disease Detection */}
+          <Pressable 
+            onPress={() => router.push('/capture-guide')}
+            style={({ pressed }) => [
+              styles.modernCard,
+              pressed && styles.cardPressed
+            ]}
+          >
+            <ExpoLinearGradient
+              colors={['#4CAF50', '#66BB6A']}
+              style={styles.cardGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <View style={styles.cardContent}>
+                <View style={styles.cardTop}>
+                  <View style={styles.modernIcon}>
+                    <Text style={styles.modernIconText}>🔬</Text>
+                  </View>
+                  <View style={styles.aiChip}>
+                    <View style={styles.aiDot} />
+                    <Text style={styles.aiChipText}>AI Powered</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.cardBody}>
+                  <Text style={styles.modernTitle}>Disease Detection</Text>
+                  <Text style={styles.modernSubtitle}>& Treatment</Text>
+                  <Text style={styles.modernDescription}>
+                    Instant AI-powered diagnosis with personalized treatment recommendations
+                  </Text>
+                </View>
+                
+                <View style={styles.cardFooter}>
+                  <Text style={styles.cardAction}>Get Started</Text>
+                  <Text style={styles.cardArrow}>→</Text>
+                </View>
               </View>
-              <View style={styles.moduleBadge}>
-                <Text style={styles.moduleBadgeText}>AI</Text>
-              </View>
-            </View>
-            <Text style={styles.moduleTitle}>Disease Detection & Treatment</Text>
-            <Text style={styles.moduleDescription}>
-              Diagnose plant diseases using AI-powered image analysis and get personalized treatment plans.
-            </Text>
-            <Button
-              title="Open"
-              onPress={() => router.push('/capture-guide')}
-              variant="gradient"
-              style={styles.moduleButton}
-            />
-          </Card>
+            </ExpoLinearGradient>
+          </Pressable>
 
-          {/* Module 2: IoT Monitoring & Disease Risk */}
-          <Card style={styles.moduleCard}>
-            <View style={styles.moduleHeader}>
-              <View style={styles.moduleIcon}>
-                <Text style={styles.moduleIconText}>📡</Text>
+          {/* Modern Module Card 2: IoT Monitoring */}
+          <Pressable 
+            onPress={() => router.push('/monitor/dashboard')}
+            style={({ pressed }) => [
+              styles.modernCard,
+              pressed && styles.cardPressed
+            ]}
+          >
+            <ExpoLinearGradient
+              colors={['#00BCD4', '#26C6DA']}
+              style={styles.cardGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <View style={styles.cardContent}>
+                <View style={styles.cardTop}>
+                  <View style={styles.modernIcon}>
+                    <Text style={styles.modernIconText}>📡</Text>
+                  </View>
+                  <View style={[styles.aiChip, styles.iotChip]}>
+                    <View style={[styles.aiDot, styles.iotDot]} />
+                    <Text style={styles.aiChipText}>Live Data</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.cardBody}>
+                  <Text style={styles.modernTitle}>IoT Monitoring</Text>
+                  <Text style={styles.modernSubtitle}>& Disease Risk</Text>
+                  <Text style={styles.modernDescription}>
+                    Real-time environmental tracking with predictive disease alerts
+                  </Text>
+                </View>
+                
+                <View style={styles.cardFooter}>
+                  <Text style={styles.cardAction}>View Dashboard</Text>
+                  <Text style={styles.cardArrow}>→</Text>
+                </View>
               </View>
-              <View style={styles.moduleBadge}>
-                <Text style={styles.moduleBadgeText}>IoT</Text>
-              </View>
-            </View>
-            <Text style={styles.moduleTitle}>IoT Monitoring & Disease Risk</Text>
-            <Text style={styles.moduleDescription}>
-              Real-time environmental monitoring with predictive disease risk alerts.
-            </Text>
-            <Button
-              title="Open"
-              onPress={() => router.push('/monitor/dashboard')}
-              variant="gradient"
-              style={styles.moduleButton}
-            />
-          </Card>
+            </ExpoLinearGradient>
+          </Pressable>
 
-          {/* Module 3: Care Plan + Chatbot */}
-          <Card style={styles.moduleCard}>
-            <View style={styles.moduleHeader}>
-              <View style={styles.moduleIcon}>
-                <Text style={styles.moduleIconText}>💬</Text>
+          {/* Modern Module Card 3: Care Plan + Chatbot */}
+          <Pressable 
+            onPress={() => router.push('/care-plan')}
+            style={({ pressed }) => [
+              styles.modernCard,
+              pressed && styles.cardPressed
+            ]}
+          >
+            <ExpoLinearGradient
+              colors={['#9C27B0', '#BA68C8']}
+              style={styles.cardGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <View style={styles.cardContent}>
+                <View style={styles.cardTop}>
+                  <View style={styles.modernIcon}>
+                    <Text style={styles.modernIconText}>💬</Text>
+                  </View>
+                  <View style={[styles.aiChip, styles.chatChip]}>
+                    <View style={[styles.aiDot, styles.chatDot]} />
+                    <Text style={styles.aiChipText}>AI Assistant</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.cardBody}>
+                  <Text style={styles.modernTitle}>Care Plan</Text>
+                  <Text style={styles.modernSubtitle}>& AI Assistant</Text>
+                  <Text style={styles.modernDescription}>
+                    Get expert advice and personalized care recommendations
+                  </Text>
+                </View>
+                
+                <View style={styles.cardFooter}>
+                  <Text style={styles.cardAction}>Ask Questions</Text>
+                  <Text style={styles.cardArrow}>→</Text>
+                </View>
               </View>
-              <View style={styles.moduleBadge}>
-                <Text style={styles.moduleBadgeText}>Chat</Text>
-              </View>
-            </View>
-            <Text style={styles.moduleTitle}>Care Plan + Chatbot</Text>
-            <Text style={styles.moduleDescription}>
-              Get personalized care schedules and expert advice through our AI assistant.
-            </Text>
-            <Button
-              title="Open"
-              onPress={() => router.push('/care-plan/overview')}
-              variant="gradient"
-              style={styles.moduleButton}
-            />
-          </Card>
+            </ExpoLinearGradient>
+          </Pressable>
 
-          {/* Module 4: Harvest & Market Insights */}
-          <Card style={styles.moduleCard}>
-            <View style={styles.moduleHeader}>
-              <View style={styles.moduleIcon}>
-                <Text style={styles.moduleIconText}>📊</Text>
+          {/* Modern Module Card 4: Harvest Assessment */}
+          <Pressable 
+            onPress={() => router.push('/harvest')}
+            style={({ pressed }) => [
+              styles.modernCard,
+              pressed && styles.cardPressed
+            ]}
+          >
+            <ExpoLinearGradient
+              colors={['#FF9800', '#FFB74D']}
+              style={styles.cardGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <View style={styles.cardContent}>
+                <View style={styles.cardTop}>
+                  <View style={styles.modernIcon}>
+                    <Text style={styles.modernIconText}>🌱</Text>
+                  </View>
+                  <View style={[styles.aiChip, styles.harvestChip]}>
+                    <View style={[styles.aiDot, styles.harvestDot]} />
+                    <Text style={styles.aiChipText}>Smart Tools</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.cardBody}>
+                  <Text style={styles.modernTitle}>Harvest Assessment</Text>
+                  <Text style={styles.modernSubtitle}>& Growth Tracking</Text>
+                  <Text style={styles.modernDescription}>
+                    Determine optimal harvest time with precise measurements
+                  </Text>
+                </View>
+                
+                <View style={styles.cardFooter}>
+                  <Text style={styles.cardAction}>Start Assessment</Text>
+                  <Text style={styles.cardArrow}>→</Text>
+                </View>
               </View>
-              <View style={styles.moduleBadge}>
-                <Text style={styles.moduleBadgeText}>Market</Text>
-              </View>
-            </View>
-            <Text style={styles.moduleTitle}>Harvest & Market Insights</Text>
-            <Text style={styles.moduleDescription}>
-              Track harvest readiness and get real-time market price recommendations.
-            </Text>
-            <Button
-              title="Open"
-              onPress={() => router.push('/harvest/capture-guide')}
-              variant="gradient"
-              style={styles.moduleButton}
-            />
-          </Card>
+            </ExpoLinearGradient>
+          </Pressable>
         </View>
 
-      <Card style={styles.tipsCard}>
+        {/* Quick Tips Section */}
+        <Card style={styles.tipsCard}>
         <View style={styles.tipsHeader}>
           <Text style={styles.tipsIcon}>💡</Text>
           <Text style={styles.tipsTitle}>Quick Tips</Text>
@@ -165,319 +264,252 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: Colors.neutral[50],
   },
   gradientHeader: {
-    paddingTop: 50,
-    paddingBottom: 50,
-    paddingHorizontal: 20,
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
+    paddingTop: 60,
+    paddingBottom: 40,
+    paddingHorizontal: Spacing.lg,
   },
   header: {
     alignItems: 'center',
   },
   logoContainer: {
+    marginBottom: Spacing.lg,
+  },
+  logoShadow: {
     width: 100,
     height: 100,
-    borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,0.95)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-    borderWidth: 4,
-    borderColor: 'rgba(255,255,255,0.4)',
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+    borderRadius: BorderRadius.full,
+    ...Shadows.xl,
+    backgroundColor: Colors.neutral.white,
   },
   logo: {
     width: 100,
     height: 100,
-    borderRadius: 50,
-  },
-  emoji: {
-    fontSize: 48,
+    borderRadius: BorderRadius.full,
   },
   title: {
-    fontSize: 36,
-    fontWeight: '900',
-    color: '#FFFFFF',
-    marginBottom: 12,
-    letterSpacing: 1,
+    fontSize: Typography.fontSize['5xl'],
+    fontWeight: Typography.fontWeight.black,
+    color: Colors.neutral.white,
+    marginBottom: Spacing.sm,
+    letterSpacing: Typography.letterSpacing.wide,
     textShadowColor: 'rgba(0,0,0,0.3)',
     textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
+    textShadowRadius: 8,
   },
   taglineContainer: {
     alignItems: 'center',
-    gap: 8,
+    gap: Spacing.md,
   },
   subtitle: {
-    fontSize: 15,
-    color: '#E8F5E9',
+    fontSize: Typography.fontSize.base,
+    color: 'rgba(255,255,255,0.95)',
     textAlign: 'center',
-    fontWeight: '500',
+    fontWeight: Typography.fontWeight.medium,
+    letterSpacing: Typography.letterSpacing.normal,
+  },
+  badgeGroup: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+    marginTop: Spacing.xs,
   },
   badge: {
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginTop: 4,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: Spacing.base,
+    paddingVertical: Spacing.sm,
+    borderRadius: BorderRadius.full,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  badgeSecondary: {
+    backgroundColor: 'rgba(0,188,212,0.3)',
+    borderColor: 'rgba(0,188,212,0.5)',
   },
   badgeText: {
-    color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: '700',
+    color: Colors.neutral.white,
+    fontSize: Typography.fontSize.xs,
+    fontWeight: Typography.fontWeight.bold,
+    letterSpacing: Typography.letterSpacing.wide,
   },
   container: {
     flexGrow: 1,
-    padding: 20,
-    paddingTop: 24,
+    padding: Spacing.lg,
+    paddingTop: Spacing['2xl'],
   },
   sectionHeader: {
-    marginBottom: 24,
+    marginBottom: Spacing['2xl'],
     alignItems: 'center',
   },
+  sectionIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: BorderRadius.full,
+    backgroundColor: Colors.neutral.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Spacing.md,
+    ...Shadows.md,
+  },
+  sectionIcon: {
+    fontSize: 32,
+  },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#1B5E20',
-    marginBottom: 6,
+    fontSize: Typography.fontSize['3xl'],
+    fontWeight: Typography.fontWeight.extrabold,
+    color: Colors.primary[900],
+    marginBottom: Spacing.xs,
+    textAlign: 'center',
+    letterSpacing: Typography.letterSpacing.tight,
   },
   sectionSubtitle: {
-    fontSize: 14,
-    color: '#78909C',
-    fontWeight: '500',
+    fontSize: Typography.fontSize.sm,
+    color: Colors.neutral[600],
+    fontWeight: Typography.fontWeight.medium,
+    textAlign: 'center',
   },
   modulesGrid: {
-    gap: 16,
-    marginBottom: 24,
+    gap: Spacing.base,
+    marginBottom: Spacing['3xl'],
   },
-  moduleCard: {
-    marginTop: 0,
-    marginBottom: 0,
+  modernCard: {
+    borderRadius: BorderRadius.xl,
+    overflow: 'hidden',
+    ...Shadows.lg,
   },
-  moduleHeader: {
+  cardPressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.98 }],
+  },
+  cardGradient: {
+    padding: Spacing.lg,
+    minHeight: 200,
+  },
+  cardContent: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  cardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.base,
+  },
+  modernIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: BorderRadius.lg,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modernIconText: {
+    fontSize: 36,
+  },
+  aiChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.full,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  aiDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#00E676',
+  },
+  aiChipText: {
+    color: Colors.neutral.white,
+    fontSize: Typography.fontSize.xs,
+    fontWeight: Typography.fontWeight.bold,
+    textTransform: 'uppercase',
+    letterSpacing: Typography.letterSpacing.wide,
+  },
+  cardBody: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingVertical: Spacing.md,
+  },
+  modernTitle: {
+    fontSize: Typography.fontSize['2xl'],
+    fontWeight: Typography.fontWeight.black,
+    color: Colors.neutral.white,
+    marginBottom: Spacing.xs,
+    letterSpacing: Typography.letterSpacing.tight,
+  },
+  modernSubtitle: {
+    fontSize: Typography.fontSize.lg,
+    fontWeight: Typography.fontWeight.semibold,
+    color: 'rgba(255,255,255,0.9)',
+    marginBottom: Spacing.md,
+  },
+  modernDescription: {
+    fontSize: Typography.fontSize.sm,
+    color: 'rgba(255,255,255,0.85)',
+    lineHeight: Typography.fontSize.sm * Typography.lineHeight.relaxed,
+    fontWeight: Typography.fontWeight.medium,
+  },
+  cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    paddingTop: Spacing.base,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.2)',
   },
-  moduleIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: '#E8F5E9',
-    alignItems: 'center',
-    justifyContent: 'center',
+  cardAction: {
+    fontSize: Typography.fontSize.base,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.neutral.white,
+    letterSpacing: Typography.letterSpacing.wide,
   },
-  moduleIconText: {
-    fontSize: 32,
-  },
-  moduleBadge: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  moduleBadgeText: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  moduleTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1B5E20',
-    marginBottom: 8,
-  },
-  moduleDescription: {
-    fontSize: 14,
-    color: '#546E7A',
-    lineHeight: 20,
-    marginBottom: 16,
-  },
-  moduleButton: {
-    marginVertical: 0,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
-  },
-  statCard: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#2E7D32',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#78909C',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  featureCard: {
-    marginTop: 0,
-    marginBottom: 20,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    gap: 12,
-  },
-  iconBadge: {
-    width: 50,
-    height: 50,
-    borderRadius: 14,
-    backgroundColor: '#E8F5E9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconBadgeText: {
-    fontSize: 24,
-  },
-  cardHeaderText: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1B5E20',
-    marginBottom: 2,
-  },
-  cardSubtitle: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#66BB6A',
-  },
-  cardText: {
-    fontSize: 15,
-    color: '#546E7A',
-    lineHeight: 24,
-  },
-  stepContainer: {
-    gap: 16,
-  },
-  stepRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 14,
-  },
-  stepNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#4CAF50',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#4CAF50',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  stepNumberText: {
-    color: '#FFFFFF',
-    fontWeight: '800',
-    fontSize: 16,
-  },
-  stepContent: {
-    flex: 1,
-    paddingTop: 2,
-  },
-  stepTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#263238',
-    marginBottom: 4,
-  },
-  stepDescription: {
-    fontSize: 14,
-    color: '#78909C',
-    lineHeight: 20,
-  },
-  step: {
-    fontSize: 15,
-    color: '#555',
-    lineHeight: 24,
-  },
-  mainButton: {
-    marginVertical: 10,
-  },
-  infoCard: {
-    backgroundColor: '#E8F5E9',
-    borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2E7D32',
-    marginBottom: 10,
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 6,
-    lineHeight: 20,
+  cardArrow: {
+    fontSize: Typography.fontSize['2xl'],
+    color: Colors.neutral.white,
+    fontWeight: Typography.fontWeight.bold,
   },
   tipsCard: {
     marginTop: 0,
-    marginBottom: 24,
+    marginBottom: Spacing['2xl'],
   },
   tipsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-    gap: 10,
+    marginBottom: Spacing.base,
+    gap: Spacing.md,
   },
   tipsIcon: {
     fontSize: 28,
   },
   tipsTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1B5E20',
+    fontSize: Typography.fontSize.xl,
+    fontWeight: Typography.fontWeight.bold,
+    color: Colors.primary[900],
     flex: 1,
   },
   tipsList: {
-    gap: 12,
+    gap: Spacing.md,
   },
   tipRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: Spacing.md,
   },
   tipBullet: {
     fontSize: 18,
-    color: '#4CAF50',
-    fontWeight: '700',
+    color: Colors.primary[500],
+    fontWeight: Typography.fontWeight.bold,
   },
   tipText: {
-    fontSize: 15,
-    color: '#546E7A',
+    fontSize: Typography.fontSize.base,
+    color: Colors.neutral[600],
     flex: 1,
-    lineHeight: 22,
+    lineHeight: Typography.fontSize.base * Typography.lineHeight.relaxed,
   },
 });
