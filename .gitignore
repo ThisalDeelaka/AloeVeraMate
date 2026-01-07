@@ -24,6 +24,14 @@ web-build/
 dist/
 build/
 
+# Mobile assets (generated)
+apps/mobile/assets/adaptive-icon.png
+apps/mobile/assets/favicon.png
+apps/mobile/assets/splash.png
+# Keep actual project assets
+!apps/mobile/assets/logo.jpeg
+!apps/mobile/assets/icon.png
+
 # React Native (native builds)
 ios/Pods/
 ios/build/
@@ -36,8 +44,12 @@ android/local.properties
 # Environment variables
 # ==================================================
 .env
-.env.*
+.env.local
+.env.production
+.env.development
+# Always include example env files
 !.env.example
+!**/.env.example
 
 # ==================================================
 # Python / FastAPI

@@ -34,9 +34,20 @@ htmlcov/
 *.h5
 *.pt
 *.onnx
-models/
+models/*.pkl
+models/*.h5
 !models/.gitkeep
 
-# Data
-data/
-!data/.gitkeep
+# Data - Exclude generated/uploaded data but INCLUDE curated content
+data/uploads/
+data/raw/
+data/processed/
+data/temp/
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/feedback.db
+# Include diseases.json and knowledge base (these are curated content!)
+!data/diseases.json
+!data/knowledge/
+!data/treatments/
