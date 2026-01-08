@@ -11,7 +11,9 @@ router = APIRouter(prefix="/api/chat", tags=["Chatbot"])
 
 # --- Gemini API integration ---
 
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+# Get model from environment variable, default to gemini-1.5-flash
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
 
 # Support multiple Gemini API keys (comma-separated in GEMINI_API_KEYS)
 def get_gemini_api_keys():
@@ -31,6 +33,7 @@ class ChatResponse(BaseModel):
     reply: str
 
 async def call_gemini_api(messages):
+    import asyncio
     keys = get_gemini_api_keys()
     if not keys:
         raise RuntimeError("Gemini API key(s) not configured")
@@ -38,22 +41,25 @@ async def call_gemini_api(messages):
     payload = {
         "contents": [{"role": m["role"], "parts": [{"text": m["content"]}]} for m in messages]
     }
-    last_exc = None
-    for key in itertools.cycle(keys):
+    
+    for key in keys:
         url = f"{GEMINI_API_URL}?key={key}"
+        
         try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(url, headers=headers, json=payload, timeout=30)
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                resp = await client.post(url, headers=headers, json=payload)
                 if resp.status_code == 429:
-                    # Try next key
+                    # Rate limited - try next key
                     continue
                 resp.raise_for_status()
                 data = resp.json()
                 return data["candidates"][0]["content"]["parts"][0]["text"]
+        except httpx.TimeoutException:
+            raise RuntimeError("Gemini API timeout after 30s")
         except Exception as e:
-            last_exc = e
-            break
-    raise RuntimeError(f"Gemini API error: {last_exc}")
+            raise RuntimeError(f"Gemini API error: {str(e)}")
+    
+    raise RuntimeError("All Gemini API keys are rate limited. Please try again later.")
 
 @router.post("/", response_model=ChatResponse)
 async def chat_endpoint(req: ChatRequest = Body(...)):

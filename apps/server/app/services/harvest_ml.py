@@ -31,7 +31,8 @@ class HarvestMLService:
             "Overripe"
         ]
         
-        self._load_model()
+        # Don't load model on init to avoid slow startup
+        # self._load_model()
     
     def _load_model(self):
         """Load the Keras model"""
@@ -43,7 +44,9 @@ class HarvestMLService:
             model_path = Path(__file__).parent.parent / "ml_models" / "harvest_model.h5"
             
             if not model_path.exists():
-                logger.warning(f"Harvest ML model not found at {model_path}")
+                logger.info(f"Harvest ML model not found at {model_path} - using fallback predictions")
+                self.model = None
+                self.model_loaded = False
                 return
             
             # Load .h5 format model with custom objects for data augmentation layers
@@ -99,6 +102,10 @@ class HarvestMLService:
         Returns:
             dict with prediction, confidence, status, message
         """
+        # Lazy load model on first prediction attempt
+        if not self.model_loaded and self.model is None:
+            self._load_model()
+        
         if not self.model_loaded:
             return {
                 "success": False,

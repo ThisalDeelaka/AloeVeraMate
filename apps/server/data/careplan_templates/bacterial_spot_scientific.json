@@ -1,0 +1,42 @@
+{
+  "disease_id": "bacterial_spot",
+  "disease_name": "Bacterial Spot",
+  "treatment_mode": "SCIENTIFIC",
+  "tasks": [
+    {
+      "title": "Apply Copper-based Fungicide",
+      "details": "Spray copper hydroxide or copper sulfate solution on affected plants. Mix 2-3 tablespoons per gallon of water. Apply in early morning or late evening.",
+      "day_offset": 0,
+      "hour": 7,
+      "minute": 0
+    },
+    {
+      "title": "Remove Infected Leaves",
+      "details": "Carefully remove and dispose of severely infected leaves. Do not compost them. Wash hands and tools after handling.",
+      "day_offset": 1,
+      "hour": 8,
+      "minute": 0
+    },
+    {
+      "title": "Second Fungicide Application",
+      "details": "Apply second round of copper-based fungicide. Ensure thorough coverage of both leaf surfaces.",
+      "day_offset": 7,
+      "hour": 7,
+      "minute": 0
+    },
+    {
+      "title": "Check Plant Recovery",
+      "details": "Inspect plants for new growth and reduced symptoms. Look for healthy new leaves without spots.",
+      "day_offset": 14,
+      "hour": 9,
+      "minute": 0
+    },
+    {
+      "title": "Final Treatment Application",
+      "details": "Apply final preventive treatment. Continue monitoring for 2 more weeks.",
+      "day_offset": 21,
+      "hour": 7,
+      "minute": 0
+    }
+  ]
+}

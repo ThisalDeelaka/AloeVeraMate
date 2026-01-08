@@ -1,0 +1,12 @@
+{
+  "features": [
+    "day_of_week",
+    "hour_of_day",
+    "tasks_scheduled_same_day",
+    "previous_misses_7d",
+    "completion_streak",
+    "avg_minutes_to_complete",
+    "reminder_enabled",
+    "number_of_reminders_sent_for_task"
+  ]
+}

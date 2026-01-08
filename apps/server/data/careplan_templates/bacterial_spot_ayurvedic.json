@@ -1,0 +1,49 @@
+{
+  "disease_id": "bacterial_spot",
+  "disease_name": "Bacterial Spot",
+  "treatment_mode": "AYURVEDIC",
+  "tasks": [
+    {
+      "title": "Apply Neem Oil Solution",
+      "details": "Mix neem oil with water (2 tablespoons per liter). Add a few drops of liquid soap as emulsifier. Spray on affected areas.",
+      "day_offset": 0,
+      "hour": 6,
+      "minute": 30
+    },
+    {
+      "title": "Turmeric Paste Application",
+      "details": "Prepare paste with turmeric powder and water. Apply on visible spots. Turmeric has natural antibacterial properties.",
+      "day_offset": 1,
+      "hour": 7,
+      "minute": 0
+    },
+    {
+      "title": "Garlic Water Spray",
+      "details": "Crush 5-6 garlic cloves in 1 liter water. Let sit overnight, strain, and spray on plants.",
+      "day_offset": 3,
+      "hour": 6,
+      "minute": 30
+    },
+    {
+      "title": "Second Neem Application",
+      "details": "Repeat neem oil treatment. Ensure good coverage of all plant parts.",
+      "day_offset": 7,
+      "hour": 6,
+      "minute": 30
+    },
+    {
+      "title": "Assess Plant Health",
+      "details": "Check for improvement in symptoms. Look for reduction in spot size and number.",
+      "day_offset": 14,
+      "hour": 8,
+      "minute": 0
+    },
+    {
+      "title": "Preventive Neem Treatment",
+      "details": "Apply neem oil as preventive measure. Continue weekly applications for one month.",
+      "day_offset": 21,
+      "hour": 6,
+      "minute": 30
+    }
+  ]
+}

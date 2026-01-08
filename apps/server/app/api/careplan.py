@@ -1,4 +1,5 @@
 import re
+import os
 from fastapi import APIRouter, Body, HTTPException
 
 # Ensure router is defined for endpoint registration

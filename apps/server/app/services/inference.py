@@ -147,10 +147,20 @@ class PlaceholderInferenceService(DiseaseInferenceService):
         # Select 3 diseases deterministically
         selected_indices = rng.sample(range(len(self.disease_ids)), min(3, len(self.disease_ids)))
         
-        # Generate probabilities that sum to 1.0
-        raw_probs = [rng.uniform(0.1, 1.0) for _ in range(3)]
-        total = sum(raw_probs)
-        probabilities = [p / total for p in raw_probs]
+        # Generate more realistic probabilities (like a trained model would)
+        # Top prediction: 65-85% (MEDIUM to HIGH confidence)
+        # Second: 10-25%
+        # Third: 5-15%
+        top_prob = rng.uniform(0.65, 0.85)
+        second_prob = rng.uniform(0.10, 0.25)
+        third_prob = 1.0 - top_prob - second_prob
+        
+        # Ensure third prob is reasonable
+        if third_prob < 0.05:
+            third_prob = 0.05
+            second_prob = 1.0 - top_prob - third_prob
+        
+        probabilities = [top_prob, second_prob, third_prob]
         
         # Create results sorted by confidence
         results = []

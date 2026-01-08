@@ -33,7 +33,7 @@ module.exports = {
       favicon: './assets/favicon.png'
     },
     extra: {
-      apiUrl: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000'
+      apiUrl: process.env.EXPO_PUBLIC_API_URL || 'http://192.168.8.194:8000'
     }
   }
 };
