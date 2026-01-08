@@ -1,3 +1,14 @@
+## ⏰ Care Plan Missed Task Checker
+
+To automatically mark overdue care plan tasks as MISSED, run the following endpoint periodically (e.g., via cron or manually):
+
+```
+curl -X POST http://localhost:8000/careplan/run_miss_check
+```
+
+This will mark all PENDING tasks as MISSED if they are overdue by more than the grace window (default: 6 hours after scheduled time).
+
+You can run this command manually, or add it to a cron job for regular checking. No separate scheduler service is required.
 # 🌿 AloeVeraMate
 
 An intelligent mobile application for detecting aloe vera plant diseases and providing treatment guidance through both scientific and Ayurvedic approaches.

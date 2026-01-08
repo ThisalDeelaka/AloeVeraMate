@@ -150,7 +150,7 @@ export default function HomeScreen() {
 
           {/* Modern Module Card 3: Care Plan + Chatbot */}
           <Pressable 
-            onPress={() => router.push('/care-plan')}
+            onPress={() => router.push('/care-plan/overview')}
             style={({ pressed }) => [
               styles.modernCard,
               pressed && styles.cardPressed

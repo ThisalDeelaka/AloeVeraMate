@@ -1,12 +1,25 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import { listPlans } from '../../src/api/careplan';
 
 export default function CarePlanOverviewScreen() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [plans, setPlans] = useState<any[]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    listPlans()
+      .then(res => setPlans(res.plans || []))
+      .catch(e => setError(e.message || 'Failed to load plans'))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -20,7 +33,6 @@ export default function CarePlanOverviewScreen() {
         <Text style={styles.title}>Care Plan Overview</Text>
         <Text style={styles.subtitle}>Personalized Plant Care Management</Text>
       </View>
-      
       <ScrollView style={styles.scrollView}>
         {/* Active Treatment Plans Card */}
         <Card>
@@ -28,13 +40,30 @@ export default function CarePlanOverviewScreen() {
             <Text style={styles.cardIcon}>📋</Text>
             <Text style={styles.cardTitle}>Your Active Treatment Plans</Text>
           </View>
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyStateIcon}>🌱</Text>
-            <Text style={styles.emptyStateText}>No active treatment plans yet</Text>
-            <Text style={styles.emptyStateSubtext}>
-              Create a plan after diagnosing your plant or get personalized recommendations from our chatbot
-            </Text>
-          </View>
+          {loading ? (
+            <ActivityIndicator size="small" color="#2E7D32" style={{ margin: 16 }} />
+          ) : error ? (
+            <Text style={{ color: 'red', margin: 16 }}>{error}</Text>
+          ) : plans.length === 0 ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyStateIcon}>🌱</Text>
+              <Text style={styles.emptyStateText}>No active treatment plans yet</Text>
+              <Text style={styles.emptyStateSubtext}>
+                Create a plan after diagnosing your plant or get personalized recommendations from our chatbot
+              </Text>
+            </View>
+          ) : (
+            plans.map(plan => (
+              <TouchableOpacity key={plan.id} onPress={() => router.push(`/care-plan/plan/${plan.id}`)} style={styles.planRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.planName}>{plan.disease_name}</Text>
+                  <Text style={styles.planMeta}>Start: {plan.start_date} | Mode: {plan.treatment_mode}</Text>
+                  {plan.next_task_time && <Text style={styles.planNextTask}>Next: {plan.next_task_time.slice(0, 16).replace('T', ' ')}</Text>}
+                </View>
+                <Text style={styles.planArrow}>→</Text>
+              </TouchableOpacity>
+            ))
+          )}
         </Card>
 
         {/* Quick Actions Card */}
@@ -46,14 +75,14 @@ export default function CarePlanOverviewScreen() {
           <View style={styles.actionsGrid}>
             <Button
               title="Create Care Plan"
-              onPress={() => {}}
+              onPress={() => router.push('/care-plan/create')}
               variant="gradient"
               style={styles.actionButton}
               icon="➕"
             />
             <Button
               title="Open Chatbot"
-              onPress={() => {}}
+              onPress={() => router.push('/care-plan/chat/1')}
               variant="gradient"
               style={styles.actionButton}
               icon="💬"
@@ -108,7 +137,7 @@ export default function CarePlanOverviewScreen() {
           </Text>
           <Button
             title="Chat with AI Assistant"
-            onPress={() => {}}
+            onPress={() => router.push('/care-plan/chat/1')}
             variant="gradient"
             style={styles.button}
             icon="💬"
@@ -265,5 +294,34 @@ const styles = StyleSheet.create({
     color: '#1B5E20',
     marginBottom: 6,
     lineHeight: 22,
+  },
+  planRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  planName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1B5E20',
+  },
+  planMeta: {
+    fontSize: 14,
+    color: '#78909C',
+    marginTop: 4,
+  },
+  planNextTask: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#2E7D32',
+    marginTop: 4,
+  },
+  planArrow: {
+    fontSize: 18,
+    color: '#B0BEC5',
+    marginLeft: 12,
   },
 });

@@ -3,6 +3,9 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
+    # Gemini API
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_MODEL: Optional[str] = None
     # Application
     APP_NAME: str = "AloeVeraMate API"
     APP_VERSION: str = "1.0.0"
@@ -34,6 +37,9 @@ class Settings(BaseSettings):
     
     # MongoDB
     MONGODB_URI: Optional[str] = None
+
+    # CarePlan Task Missed Grace Window
+    MISSED_GRACE_HOURS: int = 6
     
     class Config:
         env_file = ".env"

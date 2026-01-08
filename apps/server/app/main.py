@@ -1,3 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env if present
+load_dotenv()
+from app.services.behavior_model import BehaviorModelCache
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -77,6 +83,9 @@ def create_app() -> FastAPI:
     
     # Preload ML models into memory
     preload_ml_models()
+    # Preload and cache behavior model
+    behavior_model_dir = str(Path(__file__).parent.parent / "artifacts" / "behavior")
+    BehaviorModelCache.get_instance(behavior_model_dir)
     
     app = FastAPI(
         title=settings.APP_NAME,
@@ -97,6 +106,13 @@ def create_app() -> FastAPI:
     app.include_router(prediction.router)  # Component 1: Disease Detection
     app.include_router(harvest.router)      # Component 4: Harvest Assessment
     app.include_router(iot.router)          # Component 2: IoT Monitoring
+    from app.api import chat, careplan
+    app.include_router(chat.router)         # Component 3: Chatbot/Care Plan
+    app.include_router(careplan.router)     # Component 3: Care Plan API
+
+    # Run SQLite migrations for careplan
+    from app.careplan.repository import migrate as careplan_migrate
+    careplan_migrate()
     
     # Startup event - Connect to MongoDB
     @app.on_event("startup")

@@ -258,6 +258,23 @@ export default function ResultsScreen() {
         </Text>
       </Card>
 
+
+      <Button
+        title="📝 Create Treatment Plan"
+        onPress={() =>
+          router.push({
+            pathname: '/care-plan/create',
+            params: {
+              diseaseId: topPrediction.disease_id,
+              diseaseName: topPrediction.disease_name,
+              mode: 'SCIENTIFIC', // default mode, can be changed by user
+            },
+          })
+        }
+        variant="primary"
+        style={styles.button}
+      />
+
       <Button
         title="📷 Retake Photos"
         onPress={handleRetake}
