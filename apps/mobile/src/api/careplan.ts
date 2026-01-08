@@ -8,8 +8,9 @@ export async function applyAdaptivePolicy(taskId: string) {
   return res.data;
 }
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
-const BASE_URL = 'http://localhost:8000/careplan'; // Adjust for your backend IP if needed
+const BASE_URL = `${API_BASE_URL}/careplan`;
 
 export async function getTemplates() {
   const res = await axios.get(`${BASE_URL}/templates`);

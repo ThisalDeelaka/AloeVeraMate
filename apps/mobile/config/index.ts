@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 // API Configuration
 export const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 
   process.env.EXPO_PUBLIC_API_URL || 
-  'http://localhost:8000';
+  'http://192.168.137.1:8000';
 
 // API Endpoints
 export const API_ENDPOINTS = {

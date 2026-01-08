@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import Constants from 'expo-constants';
+import { API_BASE_URL as CONFIG_API_URL } from '../config';
 
 // API Configuration
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || 'http://localhost:8000';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || CONFIG_API_URL;
 const DEFAULT_TIMEOUT = 30000; // 30 seconds
 const RETRY_DELAY = 1000; // 1 second
 
