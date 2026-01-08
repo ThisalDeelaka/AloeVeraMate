@@ -107,10 +107,8 @@ class SensorReadingResponse(BaseModel):
     recordedAt: str
 
 
-class DiseasePrediction(BaseModel):
-    """Individual disease prediction with probability"""
-    disease: str
-    probability: float
+
+# Remove duplicate DiseasePrediction model below IoT schemas
 
 
 class IoTPrediction(BaseModel):

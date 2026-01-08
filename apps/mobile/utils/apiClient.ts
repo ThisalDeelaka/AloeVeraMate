@@ -1,9 +1,21 @@
+
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import Constants from 'expo-constants';
-import { API_BASE_URL as CONFIG_API_URL } from '../config';
 
-// API Configuration
-const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || CONFIG_API_URL;
+// --- Auto-detect dev server IP for Expo ---
+const getApiBaseUrl = () => {
+  // Works in Expo Go and development mode
+  const debuggerHost = Constants.manifest?.debuggerHost || Constants.expoConfig?.hostUri || '';
+  const ip = debuggerHost.split(':').shift();
+  if (ip) {
+    return `http://${ip}:8000`;
+  }
+  // fallback (edit as needed)
+  return 'http://localhost:8000';
+};
+
+export const API_BASE_URL = getApiBaseUrl();
+
 const DEFAULT_TIMEOUT = 30000; // 30 seconds
 const RETRY_DELAY = 1000; // 1 second
 

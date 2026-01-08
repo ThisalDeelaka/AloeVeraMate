@@ -226,14 +226,22 @@ class DiseasePredictor:
         inference_results = self.inference_service.predict(images_bytes)
         
         # Convert to schema format
-        predictions = [
-            DiseasePrediction(
-                disease_id=result.disease_id,
-                disease_name=result.disease_name,
-                prob=result.confidence
-            )
-            for result in inference_results
-        ]
+        predictions = []
+        for result in inference_results:
+            # Support both object and dict results
+            if isinstance(result, dict):
+                logger.warning(f"[DEBUG] Inference result is dict: {result}")
+                predictions.append(DiseasePrediction(
+                    disease_id=result.get('disease_id', ''),
+                    disease_name=result.get('disease_name', ''),
+                    prob=result.get('confidence', result.get('prob', 0.0))
+                ))
+            else:
+                predictions.append(DiseasePrediction(
+                    disease_id=getattr(result, 'disease_id', ''),
+                    disease_name=getattr(result, 'disease_name', ''),
+                    prob=getattr(result, 'confidence', getattr(result, 'prob', 0.0))
+                ))
         
         # Compute confidence as max(probabilities)
         max_prob = max(pred.prob for pred in predictions)

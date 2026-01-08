@@ -29,24 +29,32 @@ export default function PlanScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {loading ? <ActivityIndicator color="#2E7D32" /> : error ? (
+      {loading ? (
+        <ActivityIndicator color="#2E7D32" />
+      ) : error ? (
         <Text style={{ color: 'red', margin: 16 }}>{error}</Text>
-      ) : !plan ? null : (
+      ) : !plan ? (
+        <Text style={{ color: '#888', margin: 16 }}>No plan data found.</Text>
+      ) : (
         <>
-          <Text style={styles.title}>{plan.disease_name} ({plan.treatment_mode})</Text>
-          <Text style={styles.meta}>Start: {plan.start_date}</Text>
-          {Object.entries(grouped).map(([date, tasks]) => (
-            <View key={date} style={styles.group}>
-              <Text style={styles.date}>{date}</Text>
-              {tasks.map(task => (
-                <TouchableOpacity key={task.id} style={styles.taskRow} onPress={() => router.push(`/care-plan/task/${task.id}`)}>
-                  <Text style={[styles.taskTitle, task.status === 'COMPLETED' && { textDecorationLine: 'line-through', color: '#2E7D32' }]}>{task.title}</Text>
-                  <Text style={styles.taskStatus}>{task.status}</Text>
-                  <Text style={styles.taskArrow}>→</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          ))}
+          <Text style={styles.title}>{plan?.disease_name ?? 'Unknown Disease'} ({plan?.treatment_mode ?? 'Unknown'})</Text>
+          <Text style={styles.meta}>Start: {plan?.start_date ?? 'N/A'}</Text>
+          {tasks && Array.isArray(tasks) && tasks.length > 0 ? (
+            Object.entries(grouped).map(([date, tasks]) => (
+              <View key={date} style={styles.group}>
+                <Text style={styles.date}>{date}</Text>
+                {Array.isArray(tasks) && tasks.map(task => (
+                  <TouchableOpacity key={task.id} style={styles.taskRow} onPress={() => router.push(`/care-plan/task/${task.id}`)}>
+                    <Text style={[styles.taskTitle, task.status === 'COMPLETED' && { textDecorationLine: 'line-through', color: '#2E7D32' }]}>{task.title ?? 'Untitled Task'}</Text>
+                    <Text style={styles.taskStatus}>{task.status ?? 'N/A'}</Text>
+                    <Text style={styles.taskArrow}>→</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))
+          ) : (
+            <Text style={{ color: '#888', marginVertical: 16 }}>No tasks found for this plan.</Text>
+          )}
           <Button title="Open Chat" onPress={() => router.push(`/care-plan/chat/${planId}`)} />
           <Button title="Add Task" onPress={() => {}} color="#888" />
         </>
