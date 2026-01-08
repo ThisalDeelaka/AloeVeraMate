@@ -43,10 +43,10 @@ android/local.properties
 # ==================================================
 # Environment variables
 # ==================================================
-.env
-.env.local
-.env.production
-.env.development
+ 
+ 
+ 
+ 
 # Always include example env files
 !.env.example
 !**/.env.example
